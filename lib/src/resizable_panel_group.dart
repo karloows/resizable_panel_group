@@ -52,6 +52,13 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     if (oldWidget.children.length != widget.children.length) {
       _sizes = null;
       _lastAvailableExtent = null;
+    } else if (!_hasSameBounds(oldWidget.children, widget.children)) {
+      if (_sizes != null && _lastAvailableExtent != null) {
+        _sizes = _fitSizesToAvailable(_sizes!, _lastAvailableExtent!);
+      } else {
+        _sizes = null;
+      }
+      _lastAvailableExtent = null;
     }
   }
 
@@ -133,11 +140,27 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   List<double> _resolveSizes(double availableExtent) {
     if (_sizes == null || _sizes!.length != widget.children.length) {
       _sizes = _initializeSizes(availableExtent);
-    } else if ((_lastAvailableExtent! - availableExtent).abs() > _epsilon) {
+    } else if (_lastAvailableExtent == null ||
+        (_lastAvailableExtent! - availableExtent).abs() > _epsilon) {
       _sizes = _fitSizesToAvailable(_sizes!, availableExtent);
     }
     _lastAvailableExtent = availableExtent;
     return _sizes!;
+  }
+
+  bool _hasSameBounds(
+    List<ResizablePanel> oldChildren,
+    List<ResizablePanel> newChildren,
+  ) {
+    for (var index = 0; index < oldChildren.length; index += 1) {
+      final oldPanel = oldChildren[index];
+      final newPanel = newChildren[index];
+      if (oldPanel.minSize != newPanel.minSize ||
+          oldPanel.maxSize != newPanel.maxSize) {
+        return false;
+      }
+    }
+    return true;
   }
 
   List<double> _initializeSizes(double availableExtent) {

@@ -4,6 +4,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:resizable_panel_group/resizable_panel_group.dart';
 
 void main() {
+  test('rejects non-finite public panel sizes', () {
+    expect(
+      () => _panelWithMinSize(double.infinity),
+      throwsA(isA<AssertionError>()),
+    );
+    expect(
+      () => _panelWithMinSize(double.nan),
+      throwsA(isA<AssertionError>()),
+    );
+    expect(
+      () => _panelWithInitialSize(double.infinity),
+      throwsA(isA<AssertionError>()),
+    );
+    expect(
+      () => _panelWithInitialSize(double.nan),
+      throwsA(isA<AssertionError>()),
+    );
+  });
+
   testWidgets('lays out horizontal panels using initial size', (tester) async {
     await tester.pumpWidget(
       _testApp(
@@ -68,6 +87,65 @@ void main() {
     await tester.pump();
     expect(tester.getSize(find.byKey(const ValueKey('left'))).width, 100);
     expect(tester.getSize(find.byKey(const ValueKey('right'))).width, 290);
+  });
+
+  testWidgets('same-count bound changes refit cached sizes', (tester) async {
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          width: 400,
+          height: 200,
+          child: ResizablePanelGroup(
+            direction: Axis.horizontal,
+            handleExtent: 10,
+            children: const [
+              ResizablePanel(
+                initialSize: 120,
+                child: ColoredBox(key: ValueKey('left'), color: Colors.red),
+              ),
+              ResizablePanel(
+                child: ColoredBox(key: ValueKey('right'), color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.drag(
+      find.byKey(const ValueKey('resizable_panel_group_handle_0')),
+      const Offset(80, 0),
+    );
+    await tester.pump();
+
+    expect(tester.getSize(find.byKey(const ValueKey('left'))).width, 180);
+
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          width: 400,
+          height: 200,
+          child: ResizablePanelGroup(
+            direction: Axis.horizontal,
+            handleExtent: 10,
+            children: const [
+              ResizablePanel(
+                initialSize: 120,
+                maxSize: 150,
+                child: ColoredBox(key: ValueKey('left'), color: Colors.red),
+              ),
+              ResizablePanel(
+                child: ColoredBox(key: ValueKey('right'), color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(tester.getSize(find.byKey(const ValueKey('left'))).width, 150);
+    expect(tester.getSize(find.byKey(const ValueKey('right'))).width, 240);
   });
 
   testWidgets(
@@ -369,5 +447,16 @@ Widget _testApp({
       textDirection: textDirection,
       child: Scaffold(body: Center(child: child)),
     ),
+  );
+}
+
+ResizablePanel _panelWithMinSize(double minSize) {
+  return ResizablePanel(minSize: minSize, child: const SizedBox.shrink());
+}
+
+ResizablePanel _panelWithInitialSize(double initialSize) {
+  return ResizablePanel(
+    initialSize: initialSize,
+    child: const SizedBox.shrink(),
   );
 }
