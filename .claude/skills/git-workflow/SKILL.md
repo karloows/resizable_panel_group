@@ -41,12 +41,10 @@ When the user says **"ship"**, run without asking for confirmation:
    `git checkout -b <type>/<short-kebab-description>`. Otherwise, continue on
    the current branch and do not create a nested branch.
 2. Commit relevant changes per the Commits section above.
-3. Show the exact branch name plus the planned PR base and title, then ask for
-   confirmation before pushing.
-4. Push the branch.
-5. Show the exact PR head, base, title, and body summary, then ask for
-   confirmation before opening the PR.
-6. Open a PR using the repo's available GitHub tooling.
+3. Push the branch.
+4. Open a PR using the repo's available GitHub tooling.
+5. Report the exact branch name, PR base, PR title, and PR URL after the ship
+   flow is complete.
 
 When the user says **"land"**, run without asking for confirmation:
 1. Show the exact PR number, title, head, and base, then ask for confirmation

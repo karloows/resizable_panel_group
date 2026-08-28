@@ -31,6 +31,8 @@ ResizablePanelGroup(
 )
 ```
 
+For a complete runnable demo, see [`example/lib/main.dart`](example/lib/main.dart).
+
 ## Accessibility
 
 Handles can be focused and resized with the keyboard. Horizontal keyboard
