@@ -38,7 +38,8 @@ Repo-local skills:
   [.agents/policies/commit-policy.md](.agents/policies/commit-policy.md) —
   conventional commits with a required body.
 - `ship` means: create and check out a new branch that follows branch policy,
-  commit the work, push the branch, and open a PR.
+  commit the work, push the branch, and open a PR without asking for extra
+  confirmation.
 - `land` means: squash-merge the PR, switch the local checkout back to `main`,
   pull the merged changes, and delete the local branch.
 
