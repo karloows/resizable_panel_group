@@ -10,4 +10,4 @@
 - When the user says `ship`, create and check out a new branch that follows this
   naming policy before committing.
 - After a PR is merged: switch back to `main`, pull the merged changes, and
-  delete the local feature branch.
+  delete the local and remote feature branch.
