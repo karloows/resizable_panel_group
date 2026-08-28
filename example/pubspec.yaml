@@ -1,0 +1,14 @@
+name: resizable_panel_group_example
+publish_to: none
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  resizable_panel_group:
+    path: ../
+
+flutter:
+  uses-material-design: true
