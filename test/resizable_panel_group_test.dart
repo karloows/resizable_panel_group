@@ -226,6 +226,117 @@ void main() {
     expect(tester.getSize(find.byKey(const ValueKey('right'))).width, 250);
   });
 
+  testWidgets('rtl horizontal pointer dragging is reversed', (tester) async {
+    await tester.pumpWidget(
+      _testApp(
+        textDirection: TextDirection.rtl,
+        child: SizedBox(
+          width: 400,
+          height: 200,
+          child: ResizablePanelGroup(
+            direction: Axis.horizontal,
+            handleExtent: 10,
+            children: const [
+              ResizablePanel(
+                initialSize: 120,
+                child: ColoredBox(key: ValueKey('left'), color: Colors.red),
+              ),
+              ResizablePanel(
+                child: ColoredBox(key: ValueKey('right'), color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.drag(
+      find.byKey(const ValueKey('resizable_panel_group_handle_0')),
+      const Offset(-60, 0),
+    );
+    await tester.pump();
+
+    expect(tester.getSize(find.byKey(const ValueKey('left'))).width, 160);
+    expect(tester.getSize(find.byKey(const ValueKey('right'))).width, 230);
+  });
+
+  testWidgets('uses finite fallback sizing in a Row', (tester) async {
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          height: 200,
+          child: UnconstrainedBox(
+            constrainedAxis: Axis.vertical,
+            child: ResizablePanelGroup(
+              direction: Axis.horizontal,
+              handleExtent: 10,
+              children: const [
+                ResizablePanel(
+                  initialSize: 120,
+                  child: ColoredBox(
+                    key: ValueKey('row-left'),
+                    color: Colors.red,
+                  ),
+                ),
+                ResizablePanel(
+                  minSize: 80,
+                  child: ColoredBox(
+                    key: ValueKey('row-right'),
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(tester.takeException(), isNull);
+    expect(tester.getSize(find.byKey(const ValueKey('row-left'))).width, 120);
+    expect(tester.getSize(find.byKey(const ValueKey('row-right'))).width, 80);
+  });
+
+  testWidgets('uses finite fallback sizing in a Column', (tester) async {
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          width: 200,
+          child: UnconstrainedBox(
+            constrainedAxis: Axis.horizontal,
+            child: ResizablePanelGroup(
+              direction: Axis.vertical,
+              handleExtent: 10,
+              children: const [
+                ResizablePanel(
+                  initialSize: 90,
+                  child: ColoredBox(
+                    key: ValueKey('column-top'),
+                    color: Colors.red,
+                  ),
+                ),
+                ResizablePanel(
+                  minSize: 70,
+                  child: ColoredBox(
+                    key: ValueKey('column-bottom'),
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(tester.takeException(), isNull);
+    expect(tester.getSize(find.byKey(const ValueKey('column-top'))).height, 90);
+    expect(
+      tester.getSize(find.byKey(const ValueKey('column-bottom'))).height,
+      70,
+    );
+  });
+
   testWidgets('handle exposes resize semantics', (tester) async {
     final semantics = tester.ensureSemantics();
     await tester.pumpWidget(

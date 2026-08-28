@@ -12,7 +12,7 @@ Accessible resizable panel groups for Flutter.
 ## Usage
 
 ```dart
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:resizable_panel_group/resizable_panel_group.dart';
 
 ResizablePanelGroup(

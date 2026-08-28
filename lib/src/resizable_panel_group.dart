@@ -59,14 +59,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final availableExtent = _mainAxisExtent(constraints.biggest);
-        final panelExtent = math
-            .max(
-              0,
-              availableExtent -
-                  widget.handleExtent * math.max(0, widget.children.length - 1),
-            )
-            .toDouble();
+        final panelExtent = _availablePanelExtent(constraints.biggest);
         final sizes = _resolveSizes(panelExtent);
         final children = <Widget>[];
 
@@ -118,6 +111,23 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
 
   double _mainAxisExtent(Size size) {
     return widget.direction == Axis.horizontal ? size.width : size.height;
+  }
+
+  double _availablePanelExtent(Size size) {
+    final availableExtent = _mainAxisExtent(size);
+    if (availableExtent.isFinite) {
+      return math
+          .max(
+            0,
+            availableExtent -
+                widget.handleExtent * math.max(0, widget.children.length - 1),
+          )
+          .toDouble();
+    }
+
+    return widget.children.fold<double>(0, (sum, panel) {
+      return sum + (panel.initialSize ?? panel.minSize);
+    });
   }
 
   List<double> _resolveSizes(double availableExtent) {
@@ -400,9 +410,13 @@ class _ResizableHandleState extends State<_ResizableHandle> {
               });
             },
             onPanUpdate: (details) {
-              final delta = widget.direction == Axis.horizontal
-                  ? details.delta.dx
-                  : details.delta.dy;
+              final delta = switch (widget.direction) {
+                Axis.horizontal =>
+                  Directionality.of(context) == TextDirection.rtl
+                      ? -details.delta.dx
+                      : details.delta.dx,
+                Axis.vertical => details.delta.dy,
+              };
               widget.onResizeBy(delta);
             },
             onPanEnd: (_) {
