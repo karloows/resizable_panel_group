@@ -16,8 +16,10 @@ execution plan.
    `PLAN.md`.
 3. Keep the plan to a few concrete steps tied to files or behaviors.
 4. Include validation when code behavior changes.
-5. Include release, README, or product-brief updates only when the public
-   package surface actually changed.
+5. Include release or README updates only when the public package surface
+   actually changed.
+6. Include `PLAN.md` updates when the intended product direction changed
+   significantly.
 
 ## Good Plan Shape
 
