@@ -1,0 +1,22 @@
+name: resizable_panel_group
+description: Accessible resizable panel groups for Flutter.
+version: 0.0.1
+
+environment:
+  sdk: ^3.10.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
