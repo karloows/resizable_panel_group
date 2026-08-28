@@ -2,13 +2,36 @@
 
 Accessible resizable panel groups for Flutter.
 
-## Status
+## Features
 
-Initial package scaffold. The public widget API is not implemented yet.
+- Horizontal and vertical panel groups
+- Drag resizing for mouse and touch
+- Keyboard-accessible resize handles
+- Screen reader resize semantics
 
-## Planned scope
+## Usage
 
-- Nested horizontal and vertical panel groups
-- Keyboard-accessible resizing
-- Screen reader semantics for resize handles
-- RTL-aware layout behavior
+```dart
+import 'package:flutter/material.dart';
+import 'package:resizable_panel_group/resizable_panel_group.dart';
+
+ResizablePanelGroup(
+  direction: Axis.horizontal,
+  children: const [
+    ResizablePanel(
+      minSize: 160,
+      initialSize: 240,
+      child: ColoredBox(color: Colors.red),
+    ),
+    ResizablePanel(
+      minSize: 240,
+      child: ColoredBox(color: Colors.blue),
+    ),
+  ],
+)
+```
+
+## Accessibility
+
+Handles can be focused and resized with the keyboard. Horizontal keyboard
+behavior respects text direction.
