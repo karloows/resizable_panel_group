@@ -21,61 +21,91 @@ class ExampleApp extends StatelessWidget {
 class ExampleHome extends StatelessWidget {
   const ExampleHome({super.key});
 
+  static const double _wideLayoutMinWidth = 744;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Resizable Panel Group')),
-      body: ResizablePanelGroup(
-        direction: Axis.horizontal,
-        handleBuilder: (context, details) {
-          final color = details.isDragging
-              ? theme.colorScheme.primary
-              : theme.dividerColor;
-          return Center(
-            child: Container(
-              width: 4,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(999),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < _wideLayoutMinWidth) {
+            return const _NarrowWorkspace();
+          }
+
+          return ResizablePanelGroup(
+            direction: Axis.horizontal,
+            handleBuilder: (context, details) {
+              final color = details.isDragging
+                  ? theme.colorScheme.primary
+                  : theme.dividerColor;
+              return Center(
+                child: Container(
+                  width: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                ),
+              );
+            },
+            children: [
+              const ResizablePanel(
+                minSize: 180,
+                initialSize: 220,
+                child: _SidebarPane(),
               ),
-            ),
+              ResizablePanel(
+                minSize: 320,
+                child: ResizablePanelGroup(
+                  direction: Axis.vertical,
+                  children: const [
+                    ResizablePanel(
+                      minSize: 220,
+                      initialSize: 320,
+                      child: _EditorPane(),
+                    ),
+                    ResizablePanel(
+                      minSize: 120,
+                      initialSize: 180,
+                      child: _ConsolePane(),
+                    ),
+                  ],
+                ),
+              ),
+              const ResizablePanel(
+                minSize: 220,
+                maxSize: 360,
+                initialSize: 280,
+                child: _InspectorPane(),
+              ),
+            ],
           );
         },
-        children: [
-          const ResizablePanel(
-            minSize: 180,
-            initialSize: 220,
-            child: _SidebarPane(),
-          ),
-          ResizablePanel(
-            minSize: 320,
-            child: ResizablePanelGroup(
-              direction: Axis.vertical,
-              children: const [
-                ResizablePanel(
-                  minSize: 220,
-                  initialSize: 320,
-                  child: _EditorPane(),
-                ),
-                ResizablePanel(
-                  minSize: 120,
-                  initialSize: 180,
-                  child: _ConsolePane(),
-                ),
-              ],
-            ),
-          ),
-          const ResizablePanel(
-            minSize: 220,
-            maxSize: 360,
-            initialSize: 280,
-            child: _InspectorPane(),
-          ),
-        ],
       ),
+    );
+  }
+}
+
+class _NarrowWorkspace extends StatelessWidget {
+  const _NarrowWorkspace();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: const [
+        SizedBox(height: 220, child: _SidebarPane()),
+        SizedBox(height: 12),
+        SizedBox(height: 320, child: _EditorPane()),
+        SizedBox(height: 12),
+        SizedBox(height: 140, child: _ConsolePane()),
+        SizedBox(height: 12),
+        SizedBox(height: 220, child: _InspectorPane()),
+      ],
     );
   }
 }
@@ -172,22 +202,24 @@ class _ConsolePane extends StatelessWidget {
       color: const Color(0xFF111827),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: DefaultTextStyle(
-          style: theme.textTheme.bodySmall!.copyWith(
-            color: const Color(0xFFD1D5DB),
-            fontFamily: 'monospace',
-          ),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PaneTitle('Console', color: Colors.white),
-              SizedBox(height: 12),
-              Text('> flutter run'),
-              SizedBox(height: 8),
-              Text('Handle focused'),
-              Text('ArrowRight -> leading panel +16'),
-              Text('Shift+ArrowRight -> leading panel +64'),
-            ],
+        child: SingleChildScrollView(
+          child: DefaultTextStyle(
+            style: theme.textTheme.bodySmall!.copyWith(
+              color: const Color(0xFFD1D5DB),
+              fontFamily: 'monospace',
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _PaneTitle('Console', color: Colors.white),
+                SizedBox(height: 12),
+                Text('> flutter run'),
+                SizedBox(height: 8),
+                Text('Handle focused'),
+                Text('ArrowRight -> leading panel +16'),
+                Text('Shift+ArrowRight -> leading panel +64'),
+              ],
+            ),
           ),
         ),
       ),
