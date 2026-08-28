@@ -70,6 +70,62 @@ void main() {
     expect(tester.getSize(find.byKey(const ValueKey('right'))).width, 290);
   });
 
+  testWidgets(
+    'dragging is a no-op when adjacent minimum sizes cannot both fit',
+    (tester) async {
+      await tester.pumpWidget(
+        _testApp(
+          child: SizedBox(
+            width: 150,
+            height: 200,
+            child: ResizablePanelGroup(
+              direction: Axis.horizontal,
+              handleExtent: 10,
+              children: const [
+                ResizablePanel(
+                  minSize: 100,
+                  child: ColoredBox(
+                    key: ValueKey('tight-left'),
+                    color: Colors.red,
+                  ),
+                ),
+                ResizablePanel(
+                  minSize: 100,
+                  child: ColoredBox(
+                    key: ValueKey('tight-right'),
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final leftBefore = tester
+          .getSize(find.byKey(const ValueKey('tight-left')))
+          .width;
+      final rightBefore = tester
+          .getSize(find.byKey(const ValueKey('tight-right')))
+          .width;
+
+      await tester.drag(
+        find.byKey(const ValueKey('resizable_panel_group_handle_0')),
+        const Offset(40, 0),
+      );
+      await tester.pump();
+
+      expect(
+        tester.getSize(find.byKey(const ValueKey('tight-left'))).width,
+        leftBefore,
+      );
+      expect(
+        tester.getSize(find.byKey(const ValueKey('tight-right'))).width,
+        rightBefore,
+      );
+    },
+  );
+
   testWidgets('supports vertical resizing', (tester) async {
     await tester.pumpWidget(
       _testApp(

@@ -296,6 +296,9 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
       _maxSize(index) - leadingSize,
       trailingSize - _minSize(index + 1),
     );
+    if (minDelta > maxDelta) {
+      return (0, 0);
+    }
     return (minDelta, maxDelta);
   }
 
