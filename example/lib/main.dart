@@ -27,7 +27,6 @@ import 'package:flutter/material.dart'
         RoundedRectangleBorder,
         Row,
         Scaffold,
-        SingleChildScrollView,
         SizedBox,
         StatelessWidget,
         SystemMouseCursors,
@@ -116,33 +115,34 @@ class _LandscapeWorkspace extends StatelessWidget {
       handleBuilder: _buildExampleHandle,
       children: [
         const ResizablePanel(
-          minSize: 180,
-          initialSize: 220,
+          minSize: 110,
+          maxSize: 280,
+          initialSize: 140,
           child: _SidebarPane(),
         ),
         ResizablePanel(
-          minSize: 320,
+          minSize: 160,
           child: ResizablePanelGroup(
             direction: Axis.vertical,
             handleBuilder: _buildExampleHandle,
             children: const [
               ResizablePanel(
-                minSize: 220,
-                initialSize: 320,
+                minSize: 140,
+                initialSize: 180,
                 child: _EditorPane(),
               ),
               ResizablePanel(
-                minSize: 120,
-                initialSize: 180,
+                minSize: 80,
+                initialSize: 110,
                 child: _ConsolePane(),
               ),
             ],
           ),
         ),
         const ResizablePanel(
-          minSize: 220,
-          maxSize: 360,
-          initialSize: 280,
+          minSize: 110,
+          maxSize: 280,
+          initialSize: 140,
           child: _InspectorPane(label: 'Inspector'),
         ),
       ],
@@ -159,12 +159,12 @@ class _PortraitWorkspace extends StatelessWidget {
       direction: Axis.vertical,
       handleBuilder: _buildExampleHandle,
       children: const [
-        ResizablePanel(minSize: 160, initialSize: 180, child: _SidebarPane()),
-        ResizablePanel(minSize: 240, initialSize: 300, child: _EditorPane()),
-        ResizablePanel(minSize: 120, initialSize: 140, child: _ConsolePane()),
+        ResizablePanel(minSize: 96, initialSize: 120, child: _SidebarPane()),
+        ResizablePanel(minSize: 180, initialSize: 220, child: _EditorPane()),
+        ResizablePanel(minSize: 88, initialSize: 96, child: _ConsolePane()),
         ResizablePanel(
-          minSize: 160,
-          initialSize: 180,
+          minSize: 96,
+          initialSize: 120,
           child: _InspectorPane(label: 'Inspector (Portrait)'),
         ),
       ],
@@ -242,28 +242,25 @@ class _EditorPane extends StatelessWidget {
 
     return ColoredBox(
       color: Colors.white,
-      child: Padding(
+      child: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _PaneTitle('Editor'),
-            const SizedBox(height: 12),
-            Text(
-              'Drag handles, tab to a handle, then use arrow keys to resize.',
-              style: theme.textTheme.bodyMedium,
+        children: [
+          const _PaneTitle('Editor'),
+          const SizedBox(height: 12),
+          Text(
+            'Drag handles, tab to a handle, then use arrow keys to resize.',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0F172A),
+              borderRadius: BorderRadius.circular(8),
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0F172A),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  '''ResizablePanelGroup(
+            child: Text(
+              '''ResizablePanelGroup(
   direction: Axis.horizontal,
   children: [
     ResizablePanel(
@@ -277,15 +274,13 @@ class _EditorPane extends StatelessWidget {
     ),
   ],
 )''',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
-                    fontFamily: 'monospace',
-                  ),
-                ),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+                fontFamily: 'monospace',
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -300,10 +295,10 @@ class _ConsolePane extends StatelessWidget {
 
     return ColoredBox(
       color: const Color(0xFF111827),
-      child: Padding(
+      child: ListView(
         padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
+        children: [
+          DefaultTextStyle(
             style: theme.textTheme.bodySmall!.copyWith(
               color: const Color(0xFFD1D5DB),
               fontFamily: 'monospace',
@@ -318,10 +313,12 @@ class _ConsolePane extends StatelessWidget {
                 Text('Handle focused'),
                 Text('ArrowRight -> leading panel +16'),
                 Text('Shift+ArrowRight -> leading panel +64'),
+                Text('Scrolling stays available as the panel shrinks'),
+                Text('Resize vertically to test shorter console heights'),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
