@@ -1,6 +1,9 @@
 name: resizable_panel_group
-description: Accessible resizable panel groups for Flutter.
+description: Accessible, Flutter-native resizable panel groups for split views, sidebars, and editor layouts.
 version: 0.1.0
+homepage: https://github.com/karloows/resizable_panel_group
+repository: https://github.com/karloows/resizable_panel_group
+issue_tracker: https://github.com/karloows/resizable_panel_group/issues
 
 environment:
   sdk: ^3.10.0
@@ -20,3 +23,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+topics:
+  - flutter
+  - layout
+  - split-view
+  - resizable
+  - accessibility
+
+screenshots:
+  - description: Landscape split workspace with nested resizable panels.
+    path: demo/landscape.gif
+  - description: Portrait split workspace with stacked resizable panels.
+    path: demo/portrait.gif

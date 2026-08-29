@@ -1,5 +1,3 @@
-# Changelog
-
 ## [0.1.0](https://github.com/karloows/resizable_panel_group/compare/resizable_panel_group-v0.0.1...resizable_panel_group-v0.1.0) (2026-08-29)
 
 
