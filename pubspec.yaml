@@ -1,6 +1,6 @@
 name: resizable_panel_group
 description: Accessible resizable panel groups for Flutter.
-version: 0.0.1
+version: 0.1.0
 
 environment:
   sdk: ^3.10.0
