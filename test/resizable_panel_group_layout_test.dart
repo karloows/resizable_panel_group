@@ -181,10 +181,7 @@ void main() {
       ),
     );
 
-    expect(
-      tester.getSize(find.byKey(const ValueKey('scaled-left'))).width,
-      30,
-    );
+    expect(tester.getSize(find.byKey(const ValueKey('scaled-left'))).width, 30);
     expect(
       tester.getSize(find.byKey(const ValueKey('scaled-right'))).width,
       70,

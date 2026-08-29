@@ -49,9 +49,7 @@ ResizablePanelGroup groupWithHandleExtent(double handleExtent) {
   );
 }
 
-ResizablePanelGroup groupWithKeyboardResizeAmount(
-  double keyboardResizeAmount,
-) {
+ResizablePanelGroup groupWithKeyboardResizeAmount(double keyboardResizeAmount) {
   return ResizablePanelGroup(
     direction: Axis.horizontal,
     keyboardResizeAmount: keyboardResizeAmount,
