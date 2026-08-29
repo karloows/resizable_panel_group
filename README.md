@@ -46,7 +46,7 @@ or
 
 ```yaml
 dependencies:
-  resizable_panel_group: ^0.0.1
+  resizable_panel_group: ^0.1.0 # x-release-please-version
 ```
 
 Then import the package.
