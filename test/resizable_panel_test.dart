@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart' show Axis, SizedBox;
-import 'package:flutter_test/flutter_test.dart'
-    show expect, isA, test, throwsA;
+import 'package:flutter_test/flutter_test.dart' show expect, isA, test, throwsA;
 import 'package:resizable_panel_group/resizable_panel_group.dart'
     show ResizablePanel, ResizablePanelGroup;
 

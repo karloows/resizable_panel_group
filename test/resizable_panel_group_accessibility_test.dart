@@ -10,12 +10,7 @@ import 'package:flutter/material.dart'
         ValueKey;
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:flutter_test/flutter_test.dart'
-    show
-        expect,
-        find,
-        findsOneWidget,
-        matchesSemantics,
-        testWidgets;
+    show expect, find, findsOneWidget, matchesSemantics, testWidgets;
 import 'package:resizable_panel_group/resizable_panel_group.dart'
     show ResizablePanel, ResizablePanelGroup;
 
@@ -94,7 +89,10 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
     await tester.pump();
 
-    expect(tester.getSize(find.byKey(const ValueKey('ignored-top'))).height, 120);
+    expect(
+      tester.getSize(find.byKey(const ValueKey('ignored-top'))).height,
+      120,
+    );
     expect(
       tester.getSize(find.byKey(const ValueKey('ignored-bottom'))).height,
       270,
@@ -318,8 +316,9 @@ void main() {
             direction: Axis.horizontal,
             handleExtent: 10,
             handleBuilder: (context, details) {
-              final direction =
-                  details.direction == Axis.horizontal ? 'h' : 'v';
+              final direction = details.direction == Axis.horizontal
+                  ? 'h'
+                  : 'v';
               return ColoredBox(
                 color: Colors.black,
                 child: Text(

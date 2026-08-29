@@ -191,11 +191,10 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     final availableExtent = _mainAxisExtent(size);
     if (availableExtent.isFinite) {
       return max(
-            0,
-            availableExtent -
-                widget.handleExtent * max(0, widget.children.length - 1),
-          )
-          .toDouble();
+        0,
+        availableExtent -
+            widget.handleExtent * max(0, widget.children.length - 1),
+      ).toDouble();
     }
 
     return widget.children.fold<double>(0, (sum, panel) {
