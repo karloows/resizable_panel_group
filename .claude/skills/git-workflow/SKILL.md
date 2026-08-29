@@ -42,14 +42,16 @@ When the user says **"ship"**, run without asking for confirmation:
    the current branch and do not create a nested branch.
 2. Commit relevant changes per the Commits section above.
 3. Push the branch.
-4. Open a PR using the repo's available GitHub tooling.
+4. Open a PR using the GitHub MCP connector. Do not use `gh`.
+   If the connector does not expose the needed action, stop and ask rather
+   than falling back to the GitHub CLI.
 5. Report the exact branch name, PR base, PR title, and PR URL after the ship
    flow is complete.
 
 When the user says **"land"**, run without asking for confirmation:
 1. Show the exact PR number, title, head, and base, then ask for confirmation
    before squash-merging.
-2. Squash-merge the open PR using the repo's available GitHub tooling.
+2. Squash-merge the open PR using the GitHub MCP connector. Do not use `gh`.
 3. Check out `main`.
 4. `git pull` to bring the merge down locally.
 5. Show the exact local and remote branch names, then ask for confirmation
