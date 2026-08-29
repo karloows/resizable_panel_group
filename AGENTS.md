@@ -46,6 +46,8 @@ Repo-local skills:
 
 ## Conventions
 
+- This repo uses FVM and pins Flutter `3.47.0` in `.fvmrc`. Prefer
+  `fvm flutter ...` for package and example commands.
 - Lints: `flutter_lints` via `analysis_options.yaml` — keep it passing, don't
   add ignores without reason.
 - Follow the product brief in `PLAN.md`: keep the package small, Flutter-native,

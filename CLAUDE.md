@@ -14,10 +14,10 @@ Repo-local skills live here:
 ## Commands
 
 ```sh
-flutter pub get
-flutter analyze
-flutter test
-flutter test test/resizable_panel_group_test.dart
+fvm flutter pub get
+fvm flutter analyze
+fvm flutter test
+fvm flutter test test/resizable_panel_group_test.dart
 dart format .
 ```
 
