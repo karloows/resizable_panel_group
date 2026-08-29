@@ -22,7 +22,7 @@ These should all pass before you open a pull request:
 ```sh
 fvm flutter analyze
 fvm flutter test
-dart format .
+fvm dart format .
 ```
 
 ## Project shape

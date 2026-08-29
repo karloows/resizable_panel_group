@@ -24,7 +24,7 @@ the PR description.
 
 - [ ] `fvm flutter analyze` passes
 - [ ] `fvm flutter test` passes
-- [ ] `dart format .` run
+- [ ] `fvm dart format .` run
 - [ ] Commits follow `type(scope): summary`
 - [ ] Commit bodies explain why
 - [ ] No unrelated changes mixed in

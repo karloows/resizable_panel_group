@@ -34,7 +34,7 @@ What actually happens.
 
 - `resizable_panel_group` version:
 - Flutter version: `fvm flutter --version`
-- Dart version: `dart --version`
+- Dart version: `fvm dart --version`
 - Platform: iOS / Android / macOS / Windows / Linux / web / other
 - Device or browser:
 
