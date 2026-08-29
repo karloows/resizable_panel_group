@@ -43,8 +43,6 @@ When the user says **"ship"**, run:
 2. Commit relevant changes per the Commits section above.
 3. Push the branch.
 4. Open a PR using the GitHub MCP connector. Do not use `gh`.
-   If the connector does not expose the needed action, stop and ask rather
-   than falling back to the GitHub CLI.
 5. Report the exact branch name, PR base, PR title, and PR URL after the ship
    flow is complete.
 
