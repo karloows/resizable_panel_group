@@ -25,89 +25,150 @@ class ExampleHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Resizable Panel Group')),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < _wideLayoutMinWidth) {
-            return const _NarrowWorkspace();
-          }
+      body: Column(
+        children: [
+          const _ExampleNotice(),
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < _wideLayoutMinWidth) {
+                  return const _PortraitWorkspace();
+                }
 
-          return ResizablePanelGroup(
-            direction: Axis.horizontal,
-            handleBuilder: (context, details) {
-              final color = details.isDragging
-                  ? theme.colorScheme.primary
-                  : theme.dividerColor;
-              return Center(
-                child: Container(
-                  width: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-              );
-            },
-            children: [
-              const ResizablePanel(
-                minSize: 180,
-                initialSize: 220,
-                child: _SidebarPane(),
-              ),
-              ResizablePanel(
-                minSize: 320,
-                child: ResizablePanelGroup(
-                  direction: Axis.vertical,
-                  children: const [
-                    ResizablePanel(
-                      minSize: 220,
-                      initialSize: 320,
-                      child: _EditorPane(),
-                    ),
-                    ResizablePanel(
-                      minSize: 120,
-                      initialSize: 180,
-                      child: _ConsolePane(),
-                    ),
-                  ],
-                ),
-              ),
-              const ResizablePanel(
-                minSize: 220,
-                maxSize: 360,
-                initialSize: 280,
-                child: _InspectorPane(),
-              ),
-            ],
-          );
-        },
+                return const _LandscapeWorkspace();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _NarrowWorkspace extends StatelessWidget {
-  const _NarrowWorkspace();
+class _ExampleNotice extends StatelessWidget {
+  const _ExampleNotice();
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(12),
-      children: const [
-        SizedBox(height: 220, child: _SidebarPane()),
-        SizedBox(height: 12),
-        SizedBox(height: 320, child: _EditorPane()),
-        SizedBox(height: 12),
-        SizedBox(height: 140, child: _ConsolePane()),
-        SizedBox(height: 12),
-        SizedBox(height: 220, child: _InspectorPane()),
+    final theme = Theme.of(context);
+
+    return Material(
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Text(
+          'Wide screens show a landscape split view. Narrow screens switch to a portrait split view. Both are resizable.',
+          style: theme.textTheme.bodyMedium,
+        ),
+      ),
+    );
+  }
+}
+
+class _LandscapeWorkspace extends StatelessWidget {
+  const _LandscapeWorkspace();
+
+  @override
+  Widget build(BuildContext context) {
+    return ResizablePanelGroup(
+      direction: Axis.horizontal,
+      handleBuilder: _buildExampleHandle,
+      children: [
+        const ResizablePanel(
+          minSize: 180,
+          initialSize: 220,
+          child: _SidebarPane(),
+        ),
+        ResizablePanel(
+          minSize: 320,
+          child: ResizablePanelGroup(
+            direction: Axis.vertical,
+            handleBuilder: _buildExampleHandle,
+            children: const [
+              ResizablePanel(
+                minSize: 220,
+                initialSize: 320,
+                child: _EditorPane(),
+              ),
+              ResizablePanel(
+                minSize: 120,
+                initialSize: 180,
+                child: _ConsolePane(),
+              ),
+            ],
+          ),
+        ),
+        const ResizablePanel(
+          minSize: 220,
+          maxSize: 360,
+          initialSize: 280,
+          child: _InspectorPane(label: 'Inspector'),
+        ),
       ],
     );
   }
+}
+
+class _PortraitWorkspace extends StatelessWidget {
+  const _PortraitWorkspace();
+
+  @override
+  Widget build(BuildContext context) {
+    return ResizablePanelGroup(
+      direction: Axis.vertical,
+      handleBuilder: _buildExampleHandle,
+      children: const [
+        ResizablePanel(minSize: 160, initialSize: 180, child: _SidebarPane()),
+        ResizablePanel(minSize: 240, initialSize: 300, child: _EditorPane()),
+        ResizablePanel(minSize: 120, initialSize: 140, child: _ConsolePane()),
+        ResizablePanel(
+          minSize: 160,
+          initialSize: 180,
+          child: _InspectorPane(label: 'Inspector (Portrait)'),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _buildExampleHandle(
+  BuildContext context,
+  ResizableHandleDetails details,
+) {
+  final theme = Theme.of(context);
+  final color = details.isDragging
+      ? theme.colorScheme.primary
+      : theme.colorScheme.outline;
+  final isHorizontal = details.direction == Axis.horizontal;
+
+  return Center(
+    child: MouseRegion(
+      cursor: isHorizontal
+          ? SystemMouseCursors.resizeColumn
+          : SystemMouseCursors.resizeRow,
+      child: Container(
+        width: isHorizontal ? 12 : 52,
+        height: isHorizontal ? 52 : 12,
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.12),
+          border: Border.all(color: color.withValues(alpha: 0.45)),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Center(
+          child: Container(
+            width: isHorizontal ? 4 : 36,
+            height: isHorizontal ? 36 : 4,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(999),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class _SidebarPane extends StatelessWidget {
@@ -228,7 +289,9 @@ class _ConsolePane extends StatelessWidget {
 }
 
 class _InspectorPane extends StatelessWidget {
-  const _InspectorPane();
+  const _InspectorPane({required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -236,13 +299,13 @@ class _InspectorPane extends StatelessWidget {
       color: const Color(0xFFFFFBEB),
       child: ListView(
         padding: const EdgeInsets.all(16),
-        children: const [
-          _PaneTitle('Inspector'),
+        children: [
+          _PaneTitle(label),
           SizedBox(height: 12),
-          _InspectorRow(label: 'Direction', value: 'Horizontal'),
-          _InspectorRow(label: 'Nested group', value: 'Vertical'),
-          _InspectorRow(label: 'Keyboard', value: 'Enabled'),
-          _InspectorRow(label: 'Semantics', value: 'Resize panel'),
+          const _InspectorRow(label: 'Landscape', value: 'Horizontal split'),
+          const _InspectorRow(label: 'Portrait', value: 'Vertical split'),
+          const _InspectorRow(label: 'Keyboard', value: 'Enabled'),
+          const _InspectorRow(label: 'Semantics', value: 'Resize panel'),
         ],
       ),
     );
@@ -299,7 +362,14 @@ class _InspectorRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(child: Text(label, style: theme.textTheme.bodyMedium)),
-          Text(value, style: theme.textTheme.bodyMedium),
+          const SizedBox(width: 12),
+          Flexible(
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+              style: theme.textTheme.bodyMedium,
+            ),
+          ),
         ],
       ),
     );
