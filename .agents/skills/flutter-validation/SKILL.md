@@ -10,8 +10,8 @@ Use this skill when package or test code changed.
 ## Validation Flow
 
 1. Use the smallest check that proves the edited area while iterating.
-2. Finish with `flutter analyze`.
-3. Finish with `flutter test`.
+2. Finish with `fvm flutter analyze`.
+3. Finish with `fvm flutter test`.
 4. If public API or documented behavior changed, review `README.md`,
    `CHANGELOG.md`, and `PLAN.md` for consistency.
 5. Report exactly what ran and what did not.

@@ -2,6 +2,15 @@
 
 Accessible resizable panel groups for Flutter.
 
+## Tooling
+
+This repo uses FVM and pins Flutter `3.47.0`.
+
+```sh
+fvm install
+fvm flutter pub get
+```
+
 ## Features
 
 - Horizontal and vertical panel groups
@@ -37,7 +46,7 @@ The repo includes a runnable Flutter example in [`example/`](example/).
 
 ```sh
 cd example
-flutter run
+fvm flutter run
 ```
 
 It demonstrates:

@@ -5,8 +5,9 @@ Runnable example app for `resizable_panel_group`.
 ## Run
 
 ```sh
-flutter pub get
-flutter run
+fvm install
+fvm flutter pub get
+fvm flutter run
 ```
 
 ## What it shows
