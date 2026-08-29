@@ -19,8 +19,11 @@ class ResizablePanelGroup extends StatefulWidget {
     this.handleBuilder,
     this.onSizesChanged,
   }) : assert(children.isNotEmpty),
+       assert(handleExtent.isFinite),
        assert(handleExtent >= 0),
+       assert(keyboardResizeAmount.isFinite),
        assert(keyboardResizeAmount >= 0),
+       assert(largeKeyboardResizeAmount.isFinite),
        assert(largeKeyboardResizeAmount >= 0),
        assert(
          children.every(
