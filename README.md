@@ -31,7 +31,24 @@ ResizablePanelGroup(
 )
 ```
 
-For a complete runnable demo, see [`example/lib/main.dart`](example/lib/main.dart).
+## Example
+
+The repo includes a runnable Flutter example in [`example/`](example/).
+
+```sh
+cd example
+flutter run
+```
+
+It demonstrates:
+
+- a landscape split-view example
+- a portrait split-view example
+- a nested vertical panel group
+- a custom handle
+
+The example switches automatically by width, so you do not need to manually
+rotate an emulator or phone to find an interactive layout.
 
 ## Accessibility
 
