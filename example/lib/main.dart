@@ -180,7 +180,7 @@ class _SidebarPane extends StatelessWidget {
       color: const Color(0xFFF5F7FA),
       child: ListView(
         padding: const EdgeInsets.all(16),
-        children: const [
+        children: [
           _PaneTitle('Navigation'),
           SizedBox(height: 12),
           _NavTile('Overview'),
@@ -336,12 +336,15 @@ class _NavTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        tileColor: Colors.white,
-        title: Text(label),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        child: ListTile(
+          dense: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          title: Text(label),
+        ),
       ),
     );
   }
