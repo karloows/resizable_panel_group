@@ -21,8 +21,13 @@ fvm flutter test test/resizable_panel_group_test.dart
 dart format .
 ```
 
-There is no evidence of CI or release automation in this repo yet, so run the
-checks yourself before considering a change done.
+This repo now has `release-please` in `.github/workflows/release-please.yml`
+and tag-based pub.dev publishing in `.github/workflows/publish.yml`, but you
+should still run checks yourself before considering a change done.
+
+Do not edit `CHANGELOG.md` or bump `version` in `pubspec.yaml` during normal
+development work. Those changes belong only in the `release-please` release PR
+or explicit release work the user asked for.
 
 ## Architecture
 
