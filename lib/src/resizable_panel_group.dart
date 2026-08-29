@@ -42,10 +42,19 @@ import 'package:flutter/services.dart'
 
 import 'resizable_panel.dart' show ResizableHandleDetails, ResizablePanel;
 
+/// Builds a custom resize handle for a [ResizablePanelGroup].
+///
+/// The returned widget is given the configured handle hit area and participates
+/// in the group's built-in pointer, keyboard, focus, and semantics behavior.
 typedef ResizableHandleBuilder =
     Widget Function(BuildContext context, ResizableHandleDetails details);
 
+/// Lays out a list of [ResizablePanel]s and lets users resize them.
+///
+/// The group supports pointer dragging, keyboard resizing, focus treatment, and
+/// semantics for the handles between adjacent panels.
 class ResizablePanelGroup extends StatefulWidget {
+  /// Creates a resizable panel group.
   ResizablePanelGroup({
     super.key,
     required this.direction,
@@ -68,12 +77,30 @@ class ResizablePanelGroup extends StatefulWidget {
          ),
        );
 
+  /// The main axis used to lay out and resize panels.
   final Axis direction;
+
+  /// The panels managed by this group.
   final List<ResizablePanel> children;
+
+  /// The hit area reserved for each resize handle.
   final double handleExtent;
+
+  /// The resize delta applied for a standard keyboard step.
   final double keyboardResizeAmount;
+
+  /// The resize delta applied for a large keyboard step, such as Shift+Arrow.
   final double largeKeyboardResizeAmount;
+
+  /// Builds a custom visual for each resize handle.
+  ///
+  /// When omitted, the group uses a simple divider-like default handle.
   final ResizableHandleBuilder? handleBuilder;
+
+  /// Called after a user resize updates the current panel sizes.
+  ///
+  /// The list is ordered to match [children] and reports logical pixels along
+  /// the group's main axis.
   final ValueChanged<List<double>>? onSizesChanged;
 
   @override
@@ -223,6 +250,11 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     return _fitSizesToAvailable(sizes, availableExtent);
   }
 
+  /// Fits panel sizes into the available extent.
+  ///
+  /// When the available extent is smaller than the combined minimum sizes, this
+  /// preserves a stable layout by proportionally scaling panels below their
+  /// configured minimums.
   List<double> _fitSizesToAvailable(
     List<double> input,
     double availableExtent,
@@ -257,6 +289,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     var remaining = amount;
 
     while (remaining > _epsilon) {
+      // Grow only panels that still have capacity, splitting space evenly.
       final growable = <int>[
         for (final index in indices)
           if (sizes[index] < _maxSize(index) - _epsilon) index,
@@ -289,6 +322,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     var remaining = amount;
 
     while (remaining > _epsilon) {
+      // Shrink only panels that are still above their minimum bound.
       final shrinkable = <int>[
         for (final index in indices)
           if (sizes[index] > _minSize(index) + _epsilon) index,
@@ -360,6 +394,8 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   (double, double) _allowedDeltaRange(int index) {
     final leadingSize = _sizes![index];
     final trailingSize = _sizes![index + 1];
+    // A handle only transfers size between adjacent panels, bounded by both
+    // panels' min and max constraints.
     final minDelta = max(
       _minSize(index) - leadingSize,
       trailingSize - _maxSize(index + 1),

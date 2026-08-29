@@ -1,20 +1,35 @@
 import 'package:flutter/widgets.dart'
     show Axis, BuildContext, StatelessWidget, Widget, immutable;
 
+/// Details about a handle between two panels.
+///
+/// This is passed to [ResizableHandleBuilder] so custom handles can react to
+/// the group direction, panel position, and current drag state.
 @immutable
 class ResizableHandleDetails {
+  /// Creates handle details for a specific handle in a panel group.
   const ResizableHandleDetails({
     required this.direction,
     required this.leadingPanelIndex,
     required this.isDragging,
   });
 
+  /// The axis along which the surrounding [ResizablePanelGroup] resizes.
   final Axis direction;
+
+  /// The index of the panel immediately before this handle.
   final int leadingPanelIndex;
+
+  /// Whether the handle is currently being dragged by pointer input.
   final bool isDragging;
 }
 
+/// A single child inside a [ResizablePanelGroup].
+///
+/// The panel itself only stores sizing constraints and returns [child] from
+/// [build]. The surrounding group owns the actual layout and resize behavior.
 class ResizablePanel extends StatelessWidget {
+  /// Creates a panel with optional min, max, and initial size constraints.
   const ResizablePanel({
     super.key,
     required this.child,
@@ -33,9 +48,26 @@ class ResizablePanel extends StatelessWidget {
        assert(maxSize == null || minSize <= maxSize),
        assert(initialSize == null || maxSize == null || initialSize <= maxSize);
 
+  /// The widget shown inside this panel.
   final Widget child;
+
+  /// The preferred minimum size for this panel on the group's main axis.
+  ///
+  /// The group honors this during normal layout and resizing, but if the
+  /// available extent is smaller than the combined minimum sizes of all panels,
+  /// it may scale panels below their configured minimums to preserve a stable
+  /// layout.
   final double minSize;
+
+  /// The largest size this panel may grow to on the group's main axis.
+  ///
+  /// When null, the panel can grow as large as the group allows.
   final double? maxSize;
+
+  /// The preferred starting size on the group's main axis.
+  ///
+  /// When omitted, the group starts this panel at [minSize] and distributes any
+  /// remaining space across flexible panels.
   final double? initialSize;
 
   @override
