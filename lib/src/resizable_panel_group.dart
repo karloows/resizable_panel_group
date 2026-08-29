@@ -250,6 +250,11 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
     return _fitSizesToAvailable(sizes, availableExtent);
   }
 
+  /// Fits panel sizes into the available extent.
+  ///
+  /// When the available extent is smaller than the combined minimum sizes, this
+  /// preserves a stable layout by proportionally scaling panels below their
+  /// configured minimums.
   List<double> _fitSizesToAvailable(
     List<double> input,
     double availableExtent,

@@ -51,7 +51,12 @@ class ResizablePanel extends StatelessWidget {
   /// The widget shown inside this panel.
   final Widget child;
 
-  /// The smallest size this panel may shrink to on the group's main axis.
+  /// The preferred minimum size for this panel on the group's main axis.
+  ///
+  /// The group honors this during normal layout and resizing, but if the
+  /// available extent is smaller than the combined minimum sizes of all panels,
+  /// it may scale panels below their configured minimums to preserve a stable
+  /// layout.
   final double minSize;
 
   /// The largest size this panel may grow to on the group's main axis.
