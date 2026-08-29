@@ -63,3 +63,25 @@ rotate an emulator or phone to find an interactive layout.
 
 Handles can be focused and resized with the keyboard. Horizontal keyboard
 behavior respects text direction.
+
+## Release
+
+This repo is set up for `release-please` plus automated pub.dev publishing.
+
+1. Add a GitHub Actions secret named `RELEASE_PLEASE_TOKEN` with a token that
+   can open PRs and create tags/releases.
+2. Publish the first package version manually from a trusted local machine.
+3. In `pub.dev/packages/resizable_panel_group/admin`, enable automated
+   publishing from GitHub Actions for this GitHub repository with the tag
+   pattern `v{{version}}`.
+4. Merge conventional-commit changes to `main`. `release-please` will open or
+   update a release PR with the next `pubspec.yaml` version and changelog.
+5. Merge that release PR. `release-please` will create the GitHub release and
+   matching `v<version>` tag, which triggers pub.dev publishing.
+
+Workflows and config live in:
+
+- [`.github/workflows/release-please.yml`](.github/workflows/release-please.yml)
+- [`.github/workflows/publish.yml`](.github/workflows/publish.yml)
+- [`release-please-config.json`](release-please-config.json)
+- [`.release-please-manifest.json`](.release-please-manifest.json)
