@@ -1,5 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:resizable_panel_group_example/main.dart';
+import 'package:flutter_test/flutter_test.dart'
+    show expect, find, findsOneWidget, testWidgets;
+import 'package:resizable_panel_group_example/main.dart' show ExampleApp;
 
 void main() {
   testWidgets('shows the example app', (tester) async {
