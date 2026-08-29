@@ -1,5 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:resizable_panel_group/resizable_panel_group.dart';
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        Axis,
+        Border,
+        BorderRadius,
+        BoxDecoration,
+        BuildContext,
+        Center,
+        Color,
+        ColoredBox,
+        Colors,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        DefaultTextStyle,
+        EdgeInsets,
+        Expanded,
+        Flexible,
+        LayoutBuilder,
+        ListTile,
+        ListView,
+        Material,
+        MaterialApp,
+        MouseRegion,
+        Padding,
+        RoundedRectangleBorder,
+        Row,
+        Scaffold,
+        SingleChildScrollView,
+        SizedBox,
+        StatelessWidget,
+        SystemMouseCursors,
+        Text,
+        TextAlign,
+        Theme,
+        ThemeData,
+        Widget,
+        runApp;
+import 'package:resizable_panel_group/resizable_panel_group.dart'
+    show ResizableHandleDetails, ResizablePanel, ResizablePanelGroup;
 
 void main() {
   runApp(const ExampleApp());

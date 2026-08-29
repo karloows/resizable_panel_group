@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart'
+    show Axis, BuildContext, StatelessWidget, Widget, immutable;
 
 @immutable
 class ResizableHandleDetails {

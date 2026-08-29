@@ -1,9 +1,46 @@
-import 'dart:math' as math;
+import 'dart:math' show max, min;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart'
+    show
+        Axis,
+        BoxDecoration,
+        BuildContext,
+        Center,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        DecoratedBox,
+        Directionality,
+        Focus,
+        FocusNode,
+        GestureDetector,
+        HitTestBehavior,
+        KeyEventResult,
+        LayoutBuilder,
+        MouseRegion,
+        Row,
+        Semantics,
+        Size,
+        SizedBox,
+        State,
+        StatefulWidget,
+        StatelessWidget,
+        SystemMouseCursors,
+        TextDirection,
+        Theme,
+        ValueChanged,
+        ValueKey,
+        VoidCallback,
+        Widget;
+import 'package:flutter/services.dart'
+    show
+        HardwareKeyboard,
+        KeyDownEvent,
+        KeyEvent,
+        KeyRepeatEvent,
+        LogicalKeyboardKey;
 
-import 'resizable_panel.dart';
+import 'resizable_panel.dart' show ResizableHandleDetails, ResizablePanel;
 
 typedef ResizableHandleBuilder =
     Widget Function(BuildContext context, ResizableHandleDetails details);
@@ -126,11 +163,10 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   double _availablePanelExtent(Size size) {
     final availableExtent = _mainAxisExtent(size);
     if (availableExtent.isFinite) {
-      return math
-          .max(
+      return max(
             0,
             availableExtent -
-                widget.handleExtent * math.max(0, widget.children.length - 1),
+                widget.handleExtent * max(0, widget.children.length - 1),
           )
           .toDouble();
     }
@@ -234,7 +270,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
 
       for (final index in growable) {
         final capacity = _maxSize(index) - sizes[index];
-        final delta = math.min(capacity, share);
+        final delta = min(capacity, share);
         if (delta > 0) {
           sizes[index] += delta;
           consumed += delta;
@@ -266,7 +302,7 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
 
       for (final index in shrinkable) {
         final capacity = sizes[index] - _minSize(index);
-        final delta = math.min(capacity, share);
+        final delta = min(capacity, share);
         if (delta > 0) {
           sizes[index] -= delta;
           consumed += delta;
@@ -324,11 +360,11 @@ class _ResizablePanelGroupState extends State<ResizablePanelGroup> {
   (double, double) _allowedDeltaRange(int index) {
     final leadingSize = _sizes![index];
     final trailingSize = _sizes![index + 1];
-    final minDelta = math.max(
+    final minDelta = max(
       _minSize(index) - leadingSize,
       trailingSize - _maxSize(index + 1),
     );
-    final maxDelta = math.min(
+    final maxDelta = min(
       _maxSize(index) - leadingSize,
       trailingSize - _minSize(index + 1),
     );
