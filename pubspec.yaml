@@ -1,6 +1,6 @@
 name: resizable_panel_group
 description: Accessible, Flutter-native resizable panel groups for split views, sidebars, and editor layouts.
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/karloows/resizable_panel_group
 repository: https://github.com/karloows/resizable_panel_group
 issue_tracker: https://github.com/karloows/resizable_panel_group/issues
