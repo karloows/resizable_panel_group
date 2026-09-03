@@ -31,9 +31,6 @@ or explicit release work the user asked for.
 
 ## Architecture
 
-Read [PLAN.md](PLAN.md) before implementing package features. It is the project
-brief and defines the intended v1 scope.
-
 Current codebase shape:
 
 - `lib/resizable_panel_group.dart` is the whole public entrypoint today. It
@@ -42,8 +39,8 @@ Current codebase shape:
 - `test/resizable_panel_group_test.dart` is a scaffold smoke test proving the
   package entrypoint exports successfully.
 - `README.md` intentionally stays short until the public widget API exists.
-- `PLAN.md` is the source of truth for the intended public API:
-  `ResizablePanelGroup`, `ResizablePanel`, and `ResizableHandleDetails`.
+- The intended public API is `ResizablePanelGroup`, `ResizablePanel`, and
+  `ResizableHandleDetails`.
 
 When implementing the real widget API, keep the first version simple:
 
